@@ -11,7 +11,7 @@ const HomePage = () => {
     const [message, setMessage] = useState("");
     const buyOrder = async () => {
         try{
-            await axios.post('https://cafe-project-1-t4uu.onrender.com/', {
+            await axios.post('https://cafe-project-1-t4uu.onrender.com/api/v1/orders', {
                 items: cartItems,
                 placedAt: new Date().toISOString()
             },
@@ -32,8 +32,13 @@ const HomePage = () => {
     useEffect(() => {
         const fetchOrders = async() => {
             try{
-                const res = await axios.get('https://cafe-project-1-t4uu.onrender.com/');
-                setOrders(res.data);
+                const res = await axios.get('https://cafe-project-1-t4uu.onrender.com/api/v1/orders');
+                if(Array.isArray(res.data)){
+                    setOrders(res.data);
+                }
+                else {
+                    setOrders([]);
+                }
             }
             catch(error){
                 console.error("failed to load order history: ", error);
@@ -87,7 +92,7 @@ const HomePage = () => {
             {/* Order History */}
             <section className='order-history'>
                 <h2>Order History</h2>
-                {orders.length === 0 ? (
+                {Array.isArray(orders) && orders.length === 0 ? (
                     <p>No past orders yet.</p>
                 ) : (
                     orders.map((order, index) => (
