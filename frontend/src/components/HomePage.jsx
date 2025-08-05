@@ -11,7 +11,7 @@ const HomePage = () => {
     const [message, setMessage] = useState("");
     const buyOrder = async () => {
         try{
-            await axios.post('http://localhost:5000/api/v1/orders', {
+            await axios.post('https://cafe-project-1-t4uu.onrender.com/', {
                 items: cartItems,
                 placedAt: new Date().toISOString()
             },
@@ -32,7 +32,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchOrders = async() => {
             try{
-                const res = await axios.get('http://localhost:5000/orders');
+                const res = await axios.get('https://cafe-project-1-t4uu.onrender.com/');
                 setOrders(res.data);
             }
             catch(error){

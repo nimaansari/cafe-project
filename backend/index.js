@@ -5,7 +5,10 @@ const { connectDB } = require("./models/database");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: "https://cafe-project-1-t4uu.onrender.com",
+    credentials: true
+}));
 
 
 app.use(express.json());
