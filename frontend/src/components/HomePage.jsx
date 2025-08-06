@@ -21,6 +21,7 @@ const HomePage = () => {
         );
             setMessage("Order placed!");
             clearCart();
+            fetchOrders();
         }
         catch(error){
             setMessage("Failed to place order!");
@@ -44,7 +45,9 @@ const HomePage = () => {
                 console.error("failed to load order history: ", error);
             }
         };
-        fetchOrders();
+        useEffect(() => {
+            fetchOrders();
+        }, []);
     }, []);
 
 
