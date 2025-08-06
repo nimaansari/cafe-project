@@ -7,6 +7,27 @@ import axios from 'axios';
 const HomePage = () => {
     const { cartItems, addCart, clearCart } = useContext(cartContext);
 
+    //Order History
+    const [orders, setOrders] = useState([]);
+
+    const fetchOrders = async() => {
+        try{
+            const res = await axios.get('https://cafe-project-f0mc.onrender.com/api/v1/orders');
+            if(Array.isArray(res.data)){
+                setOrders(res.data);
+            }
+            else {
+                setOrders([]);
+            }
+        }
+        catch(error){
+            console.error("failed to load order history: ", error);
+        }
+    };
+    useEffect(() => {
+        fetchOrders();
+    }, [])
+
     //Buy to Cart
     const [message, setMessage] = useState("");
     const buyOrder = async () => {
@@ -27,28 +48,6 @@ const HomePage = () => {
             setMessage("Failed to place order!");
         }
     }
-
-    //Order History
-    const [orders, setOrders] = useState([]);
-    useEffect(() => {
-        const fetchOrders = async() => {
-            try{
-                const res = await axios.get('https://cafe-project-f0mc.onrender.com/api/v1/orders');
-                if(Array.isArray(res.data)){
-                    setOrders(res.data);
-                }
-                else {
-                    setOrders([]);
-                }
-            }
-            catch(error){
-                console.error("failed to load order history: ", error);
-            }
-        };
-        useEffect(() => {
-            fetchOrders();
-        }, []);
-    }, []);
 
 
     return (
